@@ -1,0 +1,17 @@
+{
+  "qInfo": {
+    "qId": "124f662a-a9c1-44f6-9321-cc5c1b5712c4",
+    "qType": "variable"
+  },
+  "qMetaDef": {},
+  "qName": "vIndiceGrupo8",
+  "qNumberPresentation": {
+    "qType": "U",
+    "qnDec": 10,
+    "qUseThou": 0
+  },
+  "qDefinition": "1",
+  "tags": [
+    "Grupos"
+  ]
+}

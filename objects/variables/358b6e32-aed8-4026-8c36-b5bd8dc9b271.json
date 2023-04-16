@@ -1,0 +1,17 @@
+{
+  "qInfo": {
+    "qId": "358b6e32-aed8-4026-8c36-b5bd8dc9b271",
+    "qType": "variable"
+  },
+  "qMetaDef": {},
+  "qName": "vBtnGrupo5",
+  "qNumberPresentation": {
+    "qType": "U",
+    "qnDec": 10,
+    "qUseThou": 0
+  },
+  "qDefinition": "=pick($(vIndiceGrupo5),'[RecursoAbreviado]','[Año]','[Mes]','[Dispensario]','[Especialidad]','[Estado]','[Tipo Visita]','[TipoContingencia]','[TipoRecurso]')\r\n",
+  "tags": [
+    "Grupos"
+  ]
+}

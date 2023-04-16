@@ -1,0 +1,17 @@
+{
+  "qInfo": {
+    "qId": "0b6fcf97-46c8-4f3a-b9ad-a0a4e7a9f4bf",
+    "qType": "variable"
+  },
+  "qMetaDef": {},
+  "qName": "vIndiceTiempo2",
+  "qNumberPresentation": {
+    "qType": "U",
+    "qnDec": 10,
+    "qUseThou": 0
+  },
+  "qDefinition": "1",
+  "tags": [
+    "Grupos"
+  ]
+}

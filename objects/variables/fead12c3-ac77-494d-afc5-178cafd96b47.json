@@ -1,0 +1,17 @@
+{
+  "qInfo": {
+    "qId": "fead12c3-ac77-494d-afc5-178cafd96b47",
+    "qType": "variable"
+  },
+  "qMetaDef": {},
+  "qName": "vBtnTop",
+  "qNumberPresentation": {
+    "qType": "U",
+    "qnDec": 10,
+    "qUseThou": 0
+  },
+  "qDefinition": "=pick($(vIndiceTop),'[Año]','[Mes]','[Provincia]','[Dispensario]','[Recurso]','[TipoRecurso]','[DiaNoche]','[Turno]','[RangoHora]','[Especialidad]','[Estado]','[Tipo Visita]','[Empresa]','[Grupo Empresa]','[Entidad Caso]')",
+  "tags": [
+    "Grupos"
+  ]
+}

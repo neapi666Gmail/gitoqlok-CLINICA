@@ -1,0 +1,28 @@
+{
+  "qInfo": {
+    "qId": "YpMCudC",
+    "qType": "dimension"
+  },
+  "qDim": {
+    "qGrouping": "N",
+    "qFieldDefs": [
+      "=$(vBtnTiempo)"
+    ],
+    "qFieldLabels": [
+      "Tiempo"
+    ],
+    "qLabelExpression": "=PurgeChar('$(=vBtnTiempo)','[]')",
+    "title": "Tiempo",
+    "coloring": {
+      "changeHash": "0.6868690979420227",
+      "hasValueColors": false
+    }
+  },
+  "qMetaDef": {
+    "title": "Tiempo",
+    "description": "",
+    "tags": [
+      "Grupos"
+    ]
+  }
+}

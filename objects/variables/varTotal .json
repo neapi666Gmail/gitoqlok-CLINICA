@@ -1,0 +1,17 @@
+{
+  "qInfo": {
+    "qId": "varTotal ",
+    "qType": "variable"
+  },
+  "qMetaDef": {},
+  "qName": "varTotal ",
+  "qNumberPresentation": {
+    "qType": "U",
+    "qnDec": 10,
+    "qUseThou": 0
+  },
+  "qDefinition": "count(total < Recurso > Visita_ID)",
+  "tags": [
+    "converter-auto-created"
+  ]
+}

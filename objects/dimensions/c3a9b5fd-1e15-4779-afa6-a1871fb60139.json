@@ -1,0 +1,29 @@
+{
+  "qInfo": {
+    "qId": "c3a9b5fd-1e15-4779-afa6-a1871fb60139",
+    "qType": "dimension"
+  },
+  "qDim": {
+    "qGrouping": "N",
+    "qFieldDefs": [
+      "=$(vBtnGrupo4)"
+    ],
+    "qFieldLabels": [
+      "Grupo4"
+    ],
+    "qLabelExpression": "=PurgeChar('$(=vBtnGrupo4)','[]')",
+    "title": "Grupo4",
+    "coloring": {
+      "colorMapRef": "JKUBsU",
+      "changeHash": "0.8920811698286741",
+      "hasValueColors": false
+    }
+  },
+  "qMetaDef": {
+    "title": "Grupo4",
+    "description": "",
+    "tags": [
+      "Grupos"
+    ]
+  }
+}

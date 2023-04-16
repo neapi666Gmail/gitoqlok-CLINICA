@@ -1,0 +1,497 @@
+///$tab Main
+SET ThousandSep='.';
+SET DecimalSep=',';
+SET MoneyThousandSep='.';
+SET MoneyDecimalSep=',';
+SET MoneyFormat='#.##0,00 €;-#.##0,00 €';
+SET TimeFormat='h:mm:ss';
+SET DateFormat='DD/MM/YYYY';
+SET TimestampFormat='YYYY-MM-DD h:mm:ss[.fffffff]';
+SET MonthNames='Ene;Feb;Mar;Abr;May;Jun;Jul;Ago;Sep;Oct;Nov;Dic';
+SET DayNames='Lun;Mar;Mié;Jue;Vie;Sáb;Dom';
+
+// Modificado 24-3-2014 Peter
+// Tarea 105749 RMF
+// Añadir código caso e id historia clínica a la tabla de visitas
+
+ODBC CONNECT TO QDSN_ASQLIK (XUserId is HQcKRKFKMKSWELFJFaVeE, XPassword is VAdDeBRKZBNODYALLCeB);
+
+
+///$tab Mapping
+
+Especialidad:
+Mapping LOAD
+	ID,
+	DESCRIPCIO;
+SQL SELECT 	FMSIDE AS ID, 
+			FMSDES AS DESCRIPCIO FROM S657B8AB.mbdat.famservi order by fmside; 
+
+
+Provincia:
+Mapping LOAD
+	PRVCOD,
+	PRVDES;
+SQL SELECT * FROM S657B8AB.MBDAT.PROVINCI order by PRVCOD;
+
+TipoContingencia:
+Mapping LOAD
+	ID,
+	DESCRIPCIO;
+SQL SELECT * FROM S657B8AB.MBD.MOTIVOCASO;	
+
+Clasifvis:
+Mapping LOAD 
+	ID,
+	DESCRIPCIO;
+SQL SELECT ID, DESCRIPCIO
+FROM S657B8AB.MBD.CLASIFVIS;
+
+AgrupaciónMedico:
+Mapping LOAD 
+		ID,
+		DESCRIPCIO;
+SQL SELECT ID, DESCRIPCIO
+FROM S657B8AB.MBD.AGRUMEDIMB;
+
+Urgente:
+Mapping LOAD * INLINE [
+     Urgente_ID,TipoUrgencia
+     '0', DESCONOCIDO
+     '1', PRIORITARIO_1       
+     '2', PRIORITARIO_2       
+     '3', URGENTE_3           
+     '4', URGENTE_4           
+     '5', NORMAL_5            
+];
+
+TiposRecurso:
+Mapping LOAD * INLINE [
+    IDTipoRecurso, TipoRecurso
+    1, Médico
+    2, Due
+    3, Psicólogo
+    4, Auxiliar Clínica
+    5, Asistente Social
+    6, Administrativo
+    7, Fisioterapeuta
+    8, Odontólogo,
+    9, Dietista    
+];
+
+EstadoVisitas:
+Mapping LOAD * INLINE [
+    EstadoVisita_ID, Estado
+    P, Presentada
+    R, Realizada
+    N, No presentada 
+    A, Anulada
+    L, Aplazada
+    X, Próxima
+    S, Suspendida
+];
+
+MutuaExterno:
+Mapping LOAD * INLINE [
+    PropioAjeno_ID, PropioAjeno
+    M, Propios
+    E, Ajenos
+];
+
+UrgenciaConsulta:
+Mapping LOAD * INLINE [
+    UrgenciaSiNo, UrgenciaConsulta
+    S, Urgencias
+    N, Consultas
+];
+
+DiaSemana:
+Mapping LOAD * INLINE [
+    DiaSemanaVisita_ID, DiaSemanaVisita
+    2, Lunes
+    3, Martes
+    4, Miércoles
+    5, Jueves
+    6, Viernes
+    7, Sábado
+    1, Domingo
+];
+///$tab Visita
+Visita:
+LOAD
+	AID 														as Visita_ID,
+	HORPROGRAM           										as ID_Rango,	
+	ESTADO              										as EstadoVisita_ID,
+	ApplyMap('EstadoVisitas',ESTADO)							as Estado,
+	URGENTE              										as Urgente_ID,
+	ApplyMap('Urgente',URGENTE)									as Urgencia,
+//	URGENCIA             										as Urgencia,
+	ANYOCASO & '-' & CODIGOCASO									as CódigoCaso,
+	HISTCLINIC													as HistClinic,
+	IDTIPRECUR & '|' & 'RECURSO'								as TipoRecursoClave,
+	IDTIPRECUR 													as IDTipoRecurso,
+	ApplyMap('TiposRecurso',IDTIPRECUR)							as TipoRecurso,
+	MOTIVO														as TipoContingencia_ID,
+	ApplyMap('TipoContingencia',MOTIVO)							as TipoContingencia,
+/*	PROPIOAJENO													as PropioAjeno_ID,       */
+	IDAGRUPACION												as Agrupación_ID,
+	ApplyMap('AgrupaciónMedico',IDAGRUPACION) 					as Agrupación,
+	TMTGRABACION												as FechaGrabación,
+	TMTPROGRAM													as FechaProgramadaVisita,
+	DIASDIFERENCIA												as DíasDiferencia,
+	FECVISITA     							         			as FechaVisita,
+	makedate(year(FECVISITA),month(FECVISITA))					AS Fecha,
+	TMTENTRADA 													as FechaEntradaVisita,
+	TMTSALIDA 													as FechaSalidaVisita,
+	TMTLLEGADA													as FechaLlegadaVisita,
+	DIASEMANA													as DiaSemanaVisita_ID,
+	ApplyMap('DiaSemana',DIASEMANA)			 					as DiaSemanaVisita,
+	TIEMPOESPERA												as TiempoEsperaVisita,
+	DURACION													as DuracionVisita,
+	CODTDE & '-' & DOCASO										as DocumentoAsociacion,
+	CODIGOENTIDAD & '-' & 'NOMBREENTIDAD'							as "Entidad Caso",
+	SUMA														as SUMA,
+	CODTDE & '-' & DOCASO & ' ' & CCCPRV & '-' & CCCNUM & '-' & CCCDIG as CodigoEmpresa,
+	DESCRIPCIOTIPOVISITA										AS "Tipo Visita", /* Antes se llamaba Visita */
+    TID															as TipoVisita_ID,
+    TID & ' ' & DESCRIPCIOTIPOVISITA							as IDmasVisita,
+    IDVISITSUC													as IDVisitaSuc,
+    IDCLASVIS													as IDClasVis,
+    ApplyMap('Clasifvis',IDCLASVIS) 							as "Clase Visita",
+    SERFAM														as Especialidad_ID, 
+    ApplyMap('Especialidad',SERFAM) 							as Especialidad,   
+    URGDELSN													as UrgDelSN,
+    ApplyMap('UrgenciaConsulta',URGDELSN) 						as UrgenciaConsulta,
+    URGENCIASN													as UrgenciaSN,
+    VOLANTESN													as VolanteSN,
+    DURACVISIT													as DuraciónVisita,
+    DISCOD														as CódigoDispensario,
+    DISPRV														as CódigoProvincia,
+    ApplyMap('Provincia',DISPRV) 								as Provincia, 
+    DISDES														as Dispensario,
+    CIF 														as "CIF Empresa",
+    TIPOASISTENCIA												as "Tipo Asistencia";
+	
+	SQL SELECT A.ID as AID, 
+			A.DISPENSARI as DISPENSARI,
+			A.IDTIPVISIT as IDTIPVISIT, 
+			LEFT(DIGITS(A.HORPROGRAM), 2) as HORPROGRAM, 
+			a.ESTADO as ESTADO, 
+			a.URGENTE as URGENTE,
+			D.ANYOCASO as ANYOCASO,
+			D.CODIGOCASO as CODIGOCASO,
+			D.IDHISTCLIN as HISTCLINIC,  		
+			(CASE 	WHEN A.IDTIPRECUR IS NOT NULL THEN A.IDTIPRECUR 
+				  	WHEN A.IDTIPRECUR IS NULL AND A.IDMEDICO IS NOT NULL THEN 1 
+					WHEN A.IDTIPRECUR IS NULL AND A.IDADMINIST IS NOT NULL THEN 6 END)  AS IDTIPRECUR,			
+			(CASE WHEN A.IDTIPRECUR = 1 or (A.IDTIPRECUR IS NULL AND A.IDMEDICO IS NOT NULL) THEN A.IDMEDICO 	
+ 		 	 WHEN A.IDTIPRECUR = 2 THEN A.IDDUE 	
+			 WHEN A.IDTIPRECUR = 3 THEN A.IDPSICOLOG 	
+			 WHEN A.IDTIPRECUR = 4 THEN A.IDAUXCLINI 	
+			 WHEN A.IDTIPRECUR = 5 THEN A.IDASTSOCIA 	
+			 WHEN A.IDTIPRECUR = 6 or (A.IDTIPRECUR IS NULL AND A.IDADMINIST IS NOT NULL) THEN A.IDADMINIST 	
+			 WHEN A.IDTIPRECUR = 7 THEN A.IDFISIOTER 
+			 WHEN A.IDTIPRECUR = 8 THEN A.IDODONTOLO  
+			 WHEN A.IDTIPRECUR = 9 THEN A.IDDIETISTA END)  AS RECURSO,		
+			 				
+//			(CASE WHEN A.URGENTE = '1' THEN 'Prioritario 1'
+//			 	  WHEN A.URGENTE = '2' THEN 'Prioritario 2'
+//			 	  WHEN A.URGENTE = '3' THEN 'Urgente 3'
+//			 	  WHEN A.URGENTE = '4' THEN 'Urgente 4'	
+//			 	  WHEN A.URGENTE = '5' THEN 'No Urgente 5' END)  AS URGENCIA,	
+			 	  		
+			(CASE WHEN A.IDCASO IS NOT NULL THEN D.IDMOTICASO 
+			 	  WHEN A.IDEXPEDAT IS NOT NULL THEN 1 
+			 	  WHEN A.IDEXPEDCC IS NOT NULL THEN 7 
+			 	  WHEN A.IDEXPEDIEN IS NOT NULL THEN 10 	
+			 	  WHEN A.IDBAJASIN IS NOT NULL THEN 1 ELSE 6 END)  AS MOTIVO,			
+			
+			E.IDAGRUPA   AS IDAGRUPACION,	
+			 
+			A.FECPROGINI AS TMTPROGRAM,
+			date(A.FECPROGINI) AS FECVISITA,
+			
+			(TIMESTAMP(SUBSTR(digits(FECGRABACI), 1, 4) || '-' ||    
+          		SUBSTR(digits(FECGRABACI), 5, 2) || '-' ||    
+	          	SUBSTR(digits(FECGRABACI), 7, 2) || '-' ||    
+          		SUBSTR(digits(HORGRABACI), 1, 2) || '.' ||  
+          		SUBSTR(digits(HORGRABACI), 3, 2) || '.' || '00')) AS TMTGRABACION,
+          		
+          (days(a.FECPROGINI)-days(date(SUBSTR(FECGRABACI, 1, 4) || '-' ||SUBSTR(FECGRABACI, 5, 2) || '-' ||SUBSTR(FECGRABACI, 7, 2)))) AS DIASDIFERENCIA,
+          		          					
+			(TIMESTAMP(SUBSTR(digits(FECENTRADA), 1, 4) || '-' ||    
+          		SUBSTR(digits(FECENTRADA), 5, 2) || '-' ||    
+	          	SUBSTR(digits(FECENTRADA), 7, 2) || '-' ||    
+          		SUBSTR(digits(HORENTRADA), 1, 2) || '.' ||  
+          		SUBSTR(digits(HORENTRADA), 3, 2) || '.' || '00')) AS TMTENTRADA,
+ 			(TIMESTAMP(SUBSTR(digits(FECSALIDA), 1, 4) || '-' ||    
+          		SUBSTR(digits(FECSALIDA), 5, 2) || '-' ||    
+	          	SUBSTR(digits(FECSALIDA), 7, 2) || '-' ||    
+          		SUBSTR(digits(HORSALIDA), 1, 2) || '.' ||    
+          		SUBSTR(digits(HORSALIDA), 3, 2) || '.' || '00')) AS TMTSALIDA,
+			(TIMESTAMP(SUBSTR(digits(FECLLEGADA), 1, 4) || '-' ||    
+          		SUBSTR(digits(FECLLEGADA), 5, 2) || '-' ||    
+	          	SUBSTR(digits(FECLLEGADA), 7, 2) || '-' ||    
+          		SUBSTR(digits(HORLLEGADA), 1, 2) || '.' ||    
+          		SUBSTR(digits(HORLLEGADA), 3, 2) || '.' || '00')) AS TMTLLEGADA,
+   			
+   			dayofweek(FECPROGINI) as DIASEMANA,
+    
+/* Tiempo de Espera */
+/********************/
+
+ 	  		(CASE WHEN A.FECENTRADA IS NULL THEN NULL 
+ 	  		 
+ 	  		 ELSE
+ 	  		 
+ 	  			(CASE WHEN COALESCE(FECENTRADA, 0) = COALESCE(FECPROGRAM, 0) AND COAlESCE(FECENTRADA, 0) = COALESCE(FECLLEGADA, 0) 
+          			
+            	THEN 
+	/* PROGRAMADA = LLEGADA (con horas) */
+            	
+                  		(CASE WHEN 
+                  		FECPROGINI > TIMESTAMP(SUBSTR(digits(FECLLEGADA), 1, 4) || '-' || SUBSTR(digits(FECLLEGADA), 5, 2) || '-' || SUBSTR(digits(FECLLEGADA), 7, 2) || '-' ||    
+      	                SUBSTR(digits(HORLLEGADA), 1, 2) || '.' || SUBSTR(digits(HORLLEGADA), 3, 2) || '.' || '00')
+      	                
+      	                THEN 
+    /* COMPROBAR HORAS */ 
+    					 	(CASE when COALESCE(HORENTRADA, 0) > COALESCE(HORPROGRAM, 0) THEN                
+      	                time('00:00:00') + cast(TIMESTAMP(SUBSTR(digits(FECENTRADA), 1, 4) || '-' || SUBSTR(digits(FECENTRADA), 5, 2) || '-' || SUBSTR(digits(FECENTRADA), 7, 2) || '-' ||    
+          				SUBSTR(digits(HORENTRADA), 1, 2) || '.' || SUBSTR(digits(HORENTRADA), 3, 2) || '.' || '00') - FECPROGINI as dec(6,0)) ELSE time('00:00:00') END)
+          				
+          				ELSE
+      	                	(CASE when COALESCE(HORENTRADA, 0) > COALESCE(HORLLEGADA, 0) THEN      	                      	                
+      	                time('00:00:00') + cast(TIMESTAMP(SUBSTR(digits(FECENTRADA), 1, 4) || '-' || SUBSTR(digits(FECENTRADA), 5, 2) || '-' || SUBSTR(digits(FECENTRADA), 7, 2) || '-' ||    
+          				SUBSTR(digits(HORENTRADA), 1, 2) || '.' || SUBSTR(digits(HORENTRADA), 3, 2) || '.' || '00') -                		 
+          				TIMESTAMP(SUBSTR(digits(FECLLEGADA), 1, 4) || '-' || SUBSTR(digits(FECLLEGADA), 5, 2) || '-' ||	SUBSTR(digits(FECLLEGADA), 7, 2) || '-' ||    
+          	 			SUBSTR(digits(HORLLEGADA), 1, 2) || '.' || 	SUBSTR(digits(HORLLEGADA), 3, 2) || '.' || '00') as dec(6,0)) ELSE time('00:00:00') END) END) 
+          	 			
+             	ELSE
+             	
+/* Solo tratar 1 de las dos */
+          	 	  
+          	 	  		(CASE WHEN FECENTRADA = FECLLEGADA THEN
+          		   		   	(CASE when COALESCE(HORENTRADA, 0) > COALESCE(HORLLEGADA, 0) THEN 	  
+          	 	  		time('00:00:00') + cast(TIMESTAMP(SUBSTR(digits(FECENTRADA), 1, 4) || '-' || SUBSTR(digits(FECENTRADA), 5, 2) || '-' || SUBSTR(digits(FECENTRADA), 7, 2) || '-' ||    
+          				SUBSTR(digits(HORENTRADA), 1, 2) || '.' || SUBSTR(digits(HORENTRADA), 3, 2) || '.' || '00') - 
+          				TIMESTAMP(SUBSTR(digits(FECLLEGADA), 1, 4) || '-' || SUBSTR(digits(FECLLEGADA), 5, 2) || '-' || SUBSTR(digits(FECLLEGADA), 7, 2) || '-' ||    
+          				SUBSTR(digits(HORLLEGADA), 1, 2) || '.' || SUBSTR(digits(HORLLEGADA), 3, 2) || '.' || '00') as dec(6,0)) ELSE time('00:00:00') END)
+          				
+          				ELSE
+          				
+          				(CASE WHEN FECENTRADA = FECPROGRAM THEN  
+          				    (CASE when COALESCE(HORENTRADA, 0) > COALESCE(HORPROGRAM, 0) THEN   	 	  
+          	 	  		time('00:00:00') + cast(TIMESTAMP(SUBSTR(digits(FECENTRADA), 1, 4) || '-' || SUBSTR(digits(FECENTRADA), 5, 2) || '-' || SUBSTR(digits(FECENTRADA), 7, 2) || '-' ||    
+          				SUBSTR(digits(HORENTRADA), 1, 2) || '.' || SUBSTR(digits(HORENTRADA), 3, 2) || '.' || '00') - FECPROGINI as dec(6,0)) ELSE time('00:00:00') END) 
+          				ELSE time('00:00:00') END) END) 
+          			END)
+          		END)
+          		 
+            AS TIEMPOESPERA,
+ 	  				
+/* Duración */
+/**************/
+  		(CASE WHEN A.FECENTRADA IS NULL AND A.FECSALIDA IS NULL THEN NULL 
+ 	  		 
+ 	  		 ELSE
+ 	  		 
+ 	  			(CASE WHEN FECENTRADA = FECSALIDA and horsalida > horentrada 
+ 	  			
+            	THEN 
+	      	                      	                
+      	                time('00:00:00') + cast(TIMESTAMP(SUBSTR(digits(FECSALIDA), 1, 4) || '-' || SUBSTR(digits(FECSALIDA), 5, 2) || '-' || SUBSTR(digits(FECSALIDA), 7, 2) || '-' ||    
+          				SUBSTR(digits(HORSALIDA), 1, 2) || '.' || SUBSTR(digits(HORSALIDA), 3, 2) || '.' || '00')
+          				-                		 
+          				TIMESTAMP(SUBSTR(digits(FECENTRADA), 1, 4) || '-' || SUBSTR(digits(FECENTRADA), 5, 2) || '-' ||	SUBSTR(digits(FECENTRADA), 7, 2) || '-' ||    
+          	 			SUBSTR(digits(HORENTRADA), 1, 2) || '.' || 	SUBSTR(digits(HORENTRADA), 3, 2) || '.' || '00') as dec(6,0)) 
+          	 			
+             	ELSE
+             	
+
+          				time('00:00:00') END) END) 
+          		
+          		 
+            AS DURACION,      
+                       
+            (CASE WHEN DE.CODTDE IS NOT NULL THEN DE.CODTDE 
+			      WHEN EXC.EXCTDE IS NOT NULL  THEN EXC.EXCTDE 
+			      WHEN DE2.CODTDE IS NOT NULL THEN DE.CODTDE END)  AS CODTDE, 
+			
+     		(CASE WHEN DE.DOCASOADH IS NOT NULL THEN DE.DOCASOADH
+			      WHEN EXC.EXCDAS IS NOT NULL THEN EXC.EXCDAS
+			      WHEN DE2.DOCASOADH IS NOT NULL THEN DE2.DOCASOADH END) AS DOCASO,
+			  	         		
+     		(CASE WHEN EM.PRVCCCNAF IS NOT NULL THEN EM.PRVCCCNAF
+			      WHEN EXC.EXCPCC IS NOT NULL  THEN EXC.EXCPCC
+			      WHEN EM2.PRVCCCNAF IS NOT NULL THEN EM2.PRVCCCNAF END)  AS CCCPRV, 
+			 	         		
+     		(CASE WHEN EM.NUMCCCNAF IS NOT NULL THEN EM.NUMCCCNAF
+			      WHEN EXC.EXCNCC IS NOT NULL  THEN EXC.EXCNCC 
+			      WHEN EM2.NUMCCCNAF IS NOT NULL THEN EM2.NUMCCCNAF END) AS CCCNUM,
+			  	         		
+     		(CASE WHEN EM.DIGCCCNAF IS NOT NULL THEN EM.DIGCCCNAF
+				  WHEN EXC.EXCDCC IS NOT NULL  THEN EXC.EXCDCC 
+				  WHEN EM2.DIGCCCNAF IS NOT NULL THEN EM2.DIGCCCNAF END) AS CCCDIG,   
+				  
+		    (CASE WHEN DE.NIF  IS NOT NULL THEN DE.NIF
+		    	  WHEN DE2.NIF IS NOT NULL THEN DE2.NIF
+		    	  WHEN DE3.NIF IS NOT NULL THEN DE3.NIF ELSE ' ' END) AS CIF,				  				  				     
+
+			ENT.CODIGO as CODIGOENTIDAD, ENT.NOMBRE as NOMBREENTIDAD, M.SUMA,
+			trim(T.DESCRIPCIO) as DESCRIPCIOTIPOVISITA,T.ID AS TID,
+    DURACVISIT,
+    IDVISITSUC,
+    IDCLASVIS,
+    SERFAM,
+    URGDELSN,
+    URGENCIASN,
+    VOLANTESN,
+    DISCOD,DISPRV,
+    DISDES,
+    (CASE T.TIPASISTEN WHEN 'N' THEN 'NO PRESENCIAL' WHEN 'P' THEN 'PRESENCIAL' WHEN 'V' THEN 'VIDEOLLAMADA' END) AS TIPOASISTENCIA
+
+FROM S657B8AB.MBD.LIBRVISITA A 
+INNER JOIN MBD.TIPOVISITA T ON A.IDTIPVISIT=T.ID
+INNER JOIN MBDAT.DISPEN DIS ON A.DISPENSARI=DIS.DISCOD 
+							   LEFT OUTER JOIN S657B8AB.MBD.CASO D        ON A.IDCASO = D.ID
+                        	   LEFT OUTER JOIN S657B8AB.MBD.MEDICOMB E    ON A.IDMEDICO = E.ID
+                         	   left outer JOIN S657B8AB.MBDAT.ZONAS F     ON E.PROVZONA = F.ZONPRV AND E.CODIZONA = F.ZONCOD
+                         	   LEFT OUTER JOIN MBD.EMPRESA EM ON D.IDEMPREAFI=EM.ID
+                         	   LEFT OUTER JOIN MBD.DOCEMPRE DE ON EM.DOCUMENTOEMPRESA_ID=DE.ID
+                         	   LEFT OUTER JOIN S657B8AB.MBDAT.PKEXPECC PKC  ON A.IDEXPEDCC = PKC.ID 
+                         	   left outer join S657B8AB.MBDAT.EXPEDICC EXC   ON 
+                         	   PKC.PKCAÑO=EXC.EXCAÑO and
+							   PKC.PKCCOD=EXC.EXCCOD and
+							   PKC.PKCPRV=EXC.EXCPRV 
+							   LEFT OUTER JOIN MBD.VEMPRESA V ON EXC.EXCTDE=V.CODTDE AND EXC.EXCDAS=V.DOCASOADH AND EXC.EXCPCC=V.PRVCCCNAF AND EXC.EXCNCC=V.NUMCCCNAF AND EXC.EXCDCC=V.DIGCCCNAF
+							   LEFT OUTER JOIN MBD.EMPRESA EM3 ON V.IDEMPREAFI=EM3.ID
+                         	   LEFT OUTER JOIN MBD.DOCEMPRE DE3 ON EM3.DOCUMENTOEMPRESA_ID=DE3.ID
+							   LEFT OUTER JOIN S657B8AB.MBD.EXPEDIENTE X ON A.IDEXPEDIEN=X.ID
+							   LEFT OUTER JOIN MBD.EMPRESA EM2 ON X.IDEMPREAFI=EM2.ID
+                         	   LEFT OUTER JOIN MBD.DOCEMPRE DE2 ON EM2.DOCUMENTOEMPRESA_ID=DE2.ID							   
+							   LEFT OUTER JOIN S657B8AB.MBD.ENTIDADMB ENT ON D.ENTCOD=ENT.CODIGO
+							   LEFT OUTER JOIN MBD.MUTUA M ON ENT.CODIGO=M.ENTFACASIS
+
+WHERE A.FECPROGRAM >= 20190101 and A.dispensari in (' 2', '10', '14')
+ORDER BY FECVISITA	;
+;	
+///$tab Básicas 
+
+Recurso:
+LOAD
+	ID															as Recurso_ID,
+	IDTIPRECU & '|' & ID										as TipoRecursoClave,
+    IDTIPRECU													as TipoRecurso_ID,
+	'Nombre '& ID												as Recurso,
+	'Nombre '& ID												as RecursoAbreviado,
+	TIPO														as PropioAjeno_ID,
+	ApplyMap('MutuaExterno',TIPO) 								as PropioAjeno;
+SQL SELECT DISTINCT A.ID AS ID, 1 AS IDTIPRECU, B.NOMBRE AS NOMBRE, B.APELLIDO1 AS APELLIDO1, COALESCE(B.APELLIDO2,' ') AS APELLIDO2,TIPO FROM S657B8AB.MBD.MEDICOMB A inner JOIN S657B8AB.MBD.PERSONAMB B ON A.IDPERSONA = B.ID 
+where exists(select * from S657B8AB.MBD.LIBRVISITA C WHERE A.ID = C.IDMEDICO and left(fecprogram, 4) >= (SELECT MAX(LEFT(X.FECPROGRAM, 4)) - 4 FROM S657B8AB.MBD.LIBRVISITA X)) 		UNION
+	SELECT DISTINCT A.ID AS ID, 2 AS IDTIPRECU, B.NOMBRE AS NOMBRE, B.APELLIDO1 AS APELLIDO1, COALESCE(B.APELLIDO2,' ') AS APELLIDO2,TIPO FROM S657B8AB.MBD.DUEMB A inner JOIN S657B8AB.MBD.PERSONAMB B ON A.IDPERSONA = B.ID 
+	where exists(select * from S657B8AB.MBD.LIBRVISITA C WHERE A.ID = C.IDDUE and left(fecprogram, 4) >= (SELECT MAX(LEFT(X.FECPROGRAM, 4)) - 4 FROM S657B8AB.MBD.LIBRVISITA X)) 				UNION 
+	SELECT DISTINCT A.ID AS ID, 3 AS IDTIPRECU, B.NOMBRE AS NOMBRE, B.APELLIDO1 AS APELLIDO1, COALESCE(B.APELLIDO2,' ') AS APELLIDO2,TIPO FROM S657B8AB.MBD.PSICOLOGO A inner JOIN S657B8AB.MBD.PERSONAMB B ON A.IDPERSONA = B.ID 
+	where exists(select * from S657B8AB.MBD.LIBRVISITA C WHERE A.ID = C.IDPSICOLOG and left(fecprogram, 4) >= (SELECT MAX(LEFT(X.FECPROGRAM, 4)) - 4 FROM S657B8AB.MBD.LIBRVISITA X)) 	UNION 
+	SELECT DISTINCT A.ID AS ID, 4 AS IDTIPRECU, B.NOMBRE AS NOMBRE, B.APELLIDO1 AS APELLIDO1, COALESCE(B.APELLIDO2,' ') AS APELLIDO2,TIPO FROM S657B8AB.MBD.AUXCLINICA A inner JOIN S657B8AB.MBD.PERSONAMB B ON A.IDPERSONA = B.ID 
+	where exists(select * from S657B8AB.MBD.LIBRVISITA C WHERE A.ID = C.IDAUXCLINI and left(fecprogram, 4) >= (SELECT MAX(LEFT(X.FECPROGRAM, 4)) - 4 FROM S657B8AB.MBD.LIBRVISITA X)) 	UNION 
+	SELECT DISTINCT A.ID AS ID, 5 AS IDTIPRECU, B.NOMBRE AS NOMBRE, B.APELLIDO1 AS APELLIDO1, COALESCE(B.APELLIDO2,' ') AS APELLIDO2,TIPO FROM S657B8AB.MBD.ASTSOCIAL A inner JOIN S657B8AB.MBD.PERSONAMB B ON A.IDPERSONA = B.ID 
+	where exists(select * from S657B8AB.MBD.LIBRVISITA C WHERE A.ID = C.IDASTSOCIA and left(fecprogram, 4) >= (SELECT MAX(LEFT(X.FECPROGRAM, 4)) - 4 FROM S657B8AB.MBD.LIBRVISITA X)) 	UNION 
+	SELECT DISTINCT A.ID AS ID, 6 AS IDTIPRECU, B.NOMBRE AS NOMBRE, B.APELLIDO1 AS APELLIDO1, COALESCE(B.APELLIDO2,' ') AS APELLIDO2, 'M' AS TIPO FROM S657B8AB.MBD.ADMINIEHIS A inner JOIN S657B8AB.MBD.PERSONAMB B ON A.IDPERSONA = B.ID 
+	where exists(select * from S657B8AB.MBD.LIBRVISITA C WHERE A.ID = C.IDADMINIST and left(fecprogram, 4) >= (SELECT MAX(LEFT(X.FECPROGRAM, 4)) - 4 FROM S657B8AB.MBD.LIBRVISITA X))	UNION 
+	SELECT DISTINCT A.ID AS ID, 7 AS IDTIPRECU, B.NOMBRE AS NOMBRE, B.APELLIDO1 AS APELLIDO1, COALESCE(B.APELLIDO2,' ') AS APELLIDO2,TIPO FROM S657B8AB.MBD.FISIOTERAP A inner JOIN S657B8AB.MBD.PERSONAMB B ON A.IDPERSONA = B.ID 
+	where exists(select * from S657B8AB.MBD.LIBRVISITA C WHERE A.ID = C.IDFISIOTER and left(fecprogram, 4) >= (SELECT MAX(LEFT(X.FECPROGRAM, 4)) - 4 FROM S657B8AB.MBD.LIBRVISITA X))	UNION
+	SELECT DISTINCT A.ID AS ID, 8 AS IDTIPRECU, B.NOMBRE AS NOMBRE, B.APELLIDO1 AS APELLIDO1, COALESCE(B.APELLIDO2,' ') AS APELLIDO2,TIPO FROM S657B8AB.MBD.ODONTOLOGO A inner JOIN S657B8AB.MBD.PERSONAMB B ON A.IDPERSONA = B.ID 
+	where exists(select * from S657B8AB.MBD.LIBRVISITA C WHERE A.ID = C.IDODONTOLO and left(fecprogram, 4) >= (SELECT MAX(LEFT(X.FECPROGRAM, 4)) - 4 FROM S657B8AB.MBD.LIBRVISITA X))	UNION
+	SELECT DISTINCT A.ID AS ID, 9 AS IDTIPRECU, B.NOMBRE AS NOMBRE, B.APELLIDO1 AS APELLIDO1, COALESCE(B.APELLIDO2,' ') AS APELLIDO2,TIPO FROM S657B8AB.MBD.DIETISTA A inner JOIN S657B8AB.MBD.PERSONAMB B ON A.IDPERSONA = B.ID 
+	where exists(select * from S657B8AB.MBD.LIBRVISITA C WHERE A.ID = C.IDDIETISTA and left(fecprogram, 4) >= (SELECT MAX(LEFT(X.FECPROGRAM, 4)) - 4 FROM S657B8AB.MBD.LIBRVISITA X))	;
+
+
+Empresa:
+LOAD CODTDE & '-' & DOCASOADH & ' ' & PRVCCCNAF & '-' & NUMCCCNAF & '-' & DIGCCCNAF 					as CodigoEmpresa,
+    CODTDE & '-' & DOCASOADH & ' ' & PRVCCCNAF & '-' & NUMCCCNAF & '-' & DIGCCCNAF & ' ' & RAZONSOCI    AS Empresa, 
+    ID																									as CodigoGrupoEmpresa,
+    ID & '-' & DESCRIPCIO																				AS "Grupo Empresa";
+ 
+SQL SELECT D.CODTDE, D.DOCASOADH, E.PRVCCCNAF, E.NUMCCCNAF, E.DIGCCCNAF, E.RAZONSOCI,  G.ID, G.DESCRIPCIO
+FROM MBD.EMPRESA E 
+INNER JOIN MBD.DOCEMPRE D ON E.IDDOCEMPRE = D.ID
+LEFT OUTER JOIN MBD.GRUPOEMPRE G ON D.IDGRUPOEMP=G.ID
+; 
+///$tab En línea
+Turnos:
+LOAD * INLINE [
+    Turno_ID, Turno
+    1, 0-9
+    2, 9-16
+    3, 16-22
+    4, 22-0
+];
+
+Rango:
+LOAD * INLINE [
+    ID_Rango, RangoHora,DiaNoche_ID,Turno_ID
+    0, 0 a 1h, 2, 1
+    1, 1 a 2h, 2, 1
+    2, 2 a 3h, 2, 1 
+    3, 3 a 4h, 2, 1
+    4, 4 a 5h, 2, 1
+    5, 5 a 6h, 2, 1
+    6, 6 a 7h, 2, 1
+    7, 7 a 8h, 1, 1
+    8, 8 a 9h, 1, 1
+    9, 9 a 10h, 1, 2
+    10, 10 a 11h, 1, 2
+    11, 11 a 12h, 1, 2
+    12, 12 a 13, 1, 2
+    13, 13 a 14h, 1, 2
+    14, 14 a 15h, 1, 2
+    15, 15 a 16h, 1, 2
+    16, 16 a 17h, 1, 3
+    17, 17 a 18h, 1, 3
+    18, 18 a19h, 1, 3
+    19, 19 a 20h, 1, 3
+    20, 20 a 21h, 2, 3
+    21, 21 a 22h, 2, 3
+    22, 22 a 23h, 2, 4
+    23, 23 a 24h, 2, 4
+];
+
+
+DiaNoche:
+LOAD * Inline [
+	DiaNoche_ID,DiaNoche
+       1  , Diurno
+       2  , Nocturno
+];
+
+///$tab Calendario
+ LET varMinDate = Num(Peek('Fecha', 0,'Visita'));
+ LET varMaxDate = Num(Peek('Fecha', -1,'Visita'));
+ LET varToday = num(today());
+
+/*************** Temporary Calendar ***************/
+TempCalendar:
+LOAD
+$(varMinDate) + rowno() - 1 AS DateNumber,
+date($(varMinDate) + rowno() - 1) AS TempDate
+AUTOGENERATE
+$(varMaxDate) - $(varMinDate) + 1; 
+/*************** Master Calendar ***************/
+Calendario:
+LOAD 
+TempDate 									AS Fecha,
+Year(TempDate)								AS Año,
+Month(TempDate) 							AS Mes,
+month(TempDate) / 1				 			AS MesNum,
+Date(monthstart(TempDate), 'MMM-YYYY') 		AS MesAny,
+'T' & ceil(month(TempDate) / 3) 			AS Trimestre
+RESIDENT TempCalendar
+Order by TempDate ;
+
+DROP TABLE TempCalendar; 
+
+
+Load 
+min(Year(Fecha))							as MinAño,
+max(Year(Fecha))							as MaxAño,
+month(max(Fecha))							as MaxMes
+resident Calendario ; 

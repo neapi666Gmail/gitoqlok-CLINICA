@@ -1,0 +1,17 @@
+{
+  "qInfo": {
+    "qId": "d33f0ddb-7918-4cac-9c96-724fe2e426da",
+    "qType": "variable"
+  },
+  "qMetaDef": {},
+  "qName": "vDinamicGrupo4",
+  "qNumberPresentation": {
+    "qType": "U",
+    "qnDec": 10,
+    "qUseThou": 0
+  },
+  "qDefinition": "='1~TipoRecurso|2~Año|3~Mes|4~Dispensario|5~Especialidad|6~Estado|7~Recurso|8~Tipo Visita|9~TipoContingencia'\r\n",
+  "tags": [
+    "Grupos"
+  ]
+}

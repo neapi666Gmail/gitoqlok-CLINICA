@@ -1,0 +1,15 @@
+{
+  "qInfo": {
+    "qId": "fccbe634-80cc-4ab1-b952-af3c136d201e",
+    "qType": "variable"
+  },
+  "qMetaDef": {},
+  "qName": "vMesActual",
+  "qNumberPresentation": {
+    "qType": "U",
+    "qnDec": 10,
+    "qUseThou": 0
+  },
+  "qDefinition": "=num(month(Today()))",
+  "tags": []
+}

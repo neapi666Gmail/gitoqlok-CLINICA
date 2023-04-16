@@ -1,0 +1,17 @@
+{
+  "qInfo": {
+    "qId": "a8372466-7410-4264-bf1f-33b8c4f7b358",
+    "qType": "variable"
+  },
+  "qMetaDef": {},
+  "qName": "vIndiceTop3",
+  "qNumberPresentation": {
+    "qType": "U",
+    "qnDec": 10,
+    "qUseThou": 0
+  },
+  "qDefinition": "1",
+  "tags": [
+    "Grupos"
+  ]
+}

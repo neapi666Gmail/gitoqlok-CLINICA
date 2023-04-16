@@ -1,0 +1,29 @@
+{
+  "qInfo": {
+    "qId": "d4b86f26-4b56-49d1-878c-7ff2409b16fc",
+    "qType": "dimension"
+  },
+  "qDim": {
+    "qGrouping": "N",
+    "qFieldDefs": [
+      "=$(vBtnGrupo5)"
+    ],
+    "qFieldLabels": [
+      "Grupo5"
+    ],
+    "qLabelExpression": "=PurgeChar('$(=vBtnGrupo5)','[]')",
+    "title": "Grupo5",
+    "coloring": {
+      "colorMapRef": "JKUBsU",
+      "changeHash": "0.6301439112880494",
+      "hasValueColors": false
+    }
+  },
+  "qMetaDef": {
+    "title": "Grupo5",
+    "description": "",
+    "tags": [
+      "Grupos"
+    ]
+  }
+}

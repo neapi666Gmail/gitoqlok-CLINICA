@@ -1,0 +1,28 @@
+{
+  "qInfo": {
+    "qId": "YGmzw",
+    "qType": "dimension"
+  },
+  "qDim": {
+    "qGrouping": "N",
+    "qFieldDefs": [
+      "=$(vBtnTiempo2)"
+    ],
+    "qFieldLabels": [
+      "Tiempo2"
+    ],
+    "qLabelExpression": "=PurgeChar('$(=vBtnTiempo2)','[]')",
+    "title": "Tiempo2",
+    "coloring": {
+      "changeHash": "0.926748542423006",
+      "hasValueColors": false
+    }
+  },
+  "qMetaDef": {
+    "title": "Tiempo2",
+    "description": "",
+    "tags": [
+      "Grupos"
+    ]
+  }
+}

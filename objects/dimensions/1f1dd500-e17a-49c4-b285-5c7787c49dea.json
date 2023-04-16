@@ -1,0 +1,29 @@
+{
+  "qInfo": {
+    "qId": "1f1dd500-e17a-49c4-b285-5c7787c49dea",
+    "qType": "dimension"
+  },
+  "qDim": {
+    "qGrouping": "N",
+    "qFieldDefs": [
+      "=$(vBtnGrupo8)"
+    ],
+    "qFieldLabels": [
+      "Grupo8"
+    ],
+    "qLabelExpression": "=PurgeChar('$(=vBtnGrupo8)','[]')",
+    "title": "Grupo8",
+    "coloring": {
+      "colorMapRef": "JKUBsU",
+      "changeHash": "0.3038006538323341",
+      "hasValueColors": false
+    }
+  },
+  "qMetaDef": {
+    "title": "Grupo8",
+    "description": "",
+    "tags": [
+      "Grupos"
+    ]
+  }
+}

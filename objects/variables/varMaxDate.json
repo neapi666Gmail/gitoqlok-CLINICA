@@ -1,0 +1,17 @@
+{
+  "qInfo": {
+    "qId": "varMaxDate",
+    "qType": "variable"
+  },
+  "qMetaDef": {},
+  "qName": "varMaxDate",
+  "qNumberPresentation": {
+    "qType": "U",
+    "qnDec": 10,
+    "qUseThou": 0
+  },
+  "qDefinition": "45170",
+  "tags": [
+    "converter-auto-created"
+  ]
+}

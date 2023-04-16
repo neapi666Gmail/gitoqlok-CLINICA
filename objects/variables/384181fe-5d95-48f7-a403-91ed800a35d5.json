@@ -1,0 +1,17 @@
+{
+  "qInfo": {
+    "qId": "384181fe-5d95-48f7-a403-91ed800a35d5",
+    "qType": "variable"
+  },
+  "qMetaDef": {},
+  "qName": "vDinamicTiempo2",
+  "qNumberPresentation": {
+    "qType": "U",
+    "qnDec": 10,
+    "qUseThou": 0
+  },
+  "qDefinition": "='1~DiaSemanaVisita|2~Mes'",
+  "tags": [
+    "Grupos"
+  ]
+}

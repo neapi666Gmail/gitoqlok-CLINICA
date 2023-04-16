@@ -1,0 +1,29 @@
+{
+  "qInfo": {
+    "qId": "dd23b93a-6074-46ba-945d-22906be2d2aa",
+    "qType": "dimension"
+  },
+  "qDim": {
+    "qGrouping": "N",
+    "qFieldDefs": [
+      "=$(vBtnTop)"
+    ],
+    "qFieldLabels": [
+      "Top"
+    ],
+    "qLabelExpression": "=PurgeChar('$(=vBtnTop)','[]')",
+    "title": "Top",
+    "coloring": {
+      "colorMapRef": "nFpkn",
+      "changeHash": "0.6647531419156951",
+      "hasValueColors": false
+    }
+  },
+  "qMetaDef": {
+    "title": "Top",
+    "description": "",
+    "tags": [
+      "Grupos"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "qInfo": {
+    "qId": "e30214e8-df39-4c59-86c8-49f7a48ef5f7",
+    "qType": "variable"
+  },
+  "qMetaDef": {},
+  "qName": "vBtnTop3",
+  "qNumberPresentation": {
+    "qType": "U",
+    "qnDec": 10,
+    "qUseThou": 0
+  },
+  "qDefinition": "=pick($(vIndiceTop3),'[Tipo Visita]','[Dispensario]','[Clase Visita]','[AñoMes]','[DiaNoche]','[DiaSemanaVisita]','[Empresa]','[Grupo Empresa]','[Entidad Caso]')",
+  "tags": [
+    "Grupos"
+  ]
+}

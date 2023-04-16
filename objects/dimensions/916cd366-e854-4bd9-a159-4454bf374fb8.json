@@ -1,0 +1,29 @@
+{
+  "qInfo": {
+    "qId": "916cd366-e854-4bd9-a159-4454bf374fb8",
+    "qType": "dimension"
+  },
+  "qDim": {
+    "qGrouping": "N",
+    "qFieldDefs": [
+      "=$(vBtnGrupo3)"
+    ],
+    "qFieldLabels": [
+      "Grupo3"
+    ],
+    "qLabelExpression": "=PurgeChar('$(=vBtnGrupo3)','[]')",
+    "title": "Grupo3",
+    "coloring": {
+      "colorMapRef": "JKUBsU",
+      "changeHash": "0.8489520651148788",
+      "hasValueColors": false
+    }
+  },
+  "qMetaDef": {
+    "title": "Grupo3",
+    "description": "",
+    "tags": [
+      "Grupos"
+    ]
+  }
+}

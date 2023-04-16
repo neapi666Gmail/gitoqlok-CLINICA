@@ -1,0 +1,17 @@
+{
+  "qInfo": {
+    "qId": "ae8d3d6a-3a3f-475e-bc6e-b72d0713a903",
+    "qType": "variable"
+  },
+  "qMetaDef": {},
+  "qName": "vColorAmarillo",
+  "qNumberPresentation": {
+    "qType": "U",
+    "qnDec": 10,
+    "qUseThou": 0
+  },
+  "qDefinition": "RGB(255,255,128)",
+  "tags": [
+    "Grupos"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "qInfo": {
+    "qId": "2243710e-565e-46df-88e1-55f64a807fcc",
+    "qType": "dimension"
+  },
+  "qDim": {
+    "qGrouping": "N",
+    "qFieldDefs": [
+      "=$(vBtnGrupo6)"
+    ],
+    "qFieldLabels": [
+      "Grupo6"
+    ],
+    "qLabelExpression": "=PurgeChar('$(=vBtnGrupo6)','[]')",
+    "title": "Grupo6",
+    "coloring": {
+      "colorMapRef": "JKUBsU",
+      "changeHash": "0.04526744426315599",
+      "hasValueColors": false
+    }
+  },
+  "qMetaDef": {
+    "title": "Grupo6",
+    "description": "",
+    "tags": [
+      "Grupos"
+    ]
+  }
+}

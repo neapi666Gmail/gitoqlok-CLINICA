@@ -1,0 +1,32 @@
+///$tab Calendario
+ LET varMinDate = Num(Peek('Fecha', 0,'Visita'));
+ LET varMaxDate = Num(Peek('Fecha', -1,'Visita'));
+ LET varToday = num(today());
+
+/*************** Temporary Calendar ***************/
+TempCalendar:
+LOAD
+$(varMinDate) + rowno() - 1 AS DateNumber,
+date($(varMinDate) + rowno() - 1) AS TempDate
+AUTOGENERATE
+$(varMaxDate) - $(varMinDate) + 1; 
+/*************** Master Calendar ***************/
+Calendario:
+LOAD 
+TempDate 									AS Fecha,
+Year(TempDate)								AS Año,
+Month(TempDate) 							AS Mes,
+month(TempDate) / 1				 			AS MesNum,
+Date(monthstart(TempDate), 'MMM-YYYY') 		AS MesAny,
+'T' & ceil(month(TempDate) / 3) 			AS Trimestre
+RESIDENT TempCalendar
+Order by TempDate ;
+
+DROP TABLE TempCalendar; 
+
+
+Load 
+min(Year(Fecha))							as MinAño,
+max(Year(Fecha))							as MaxAño,
+month(max(Fecha))							as MaxMes
+resident Calendario ;

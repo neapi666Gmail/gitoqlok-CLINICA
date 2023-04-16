@@ -1,0 +1,28 @@
+{
+  "qInfo": {
+    "qId": "xmbaj",
+    "qType": "dimension"
+  },
+  "qDim": {
+    "qGrouping": "N",
+    "qFieldDefs": [
+      "=$(vBtnTop2)"
+    ],
+    "qFieldLabels": [
+      "Top2"
+    ],
+    "qLabelExpression": "=PurgeChar('$(=vBtnTop2)','[]')",
+    "title": "Top2",
+    "coloring": {
+      "changeHash": "0.19036401848693685",
+      "hasValueColors": false
+    }
+  },
+  "qMetaDef": {
+    "title": "Top2",
+    "description": "",
+    "tags": [
+      "Grupos"
+    ]
+  }
+}

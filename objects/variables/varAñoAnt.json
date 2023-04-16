@@ -1,0 +1,17 @@
+{
+  "qInfo": {
+    "qId": "varAñoAnt",
+    "qType": "variable"
+  },
+  "qMetaDef": {},
+  "qName": "varAñoAnt",
+  "qNumberPresentation": {
+    "qType": "U",
+    "qnDec": 10,
+    "qUseThou": 0
+  },
+  "qDefinition": "=max(Año) - 1",
+  "tags": [
+    "converter-auto-created"
+  ]
+}

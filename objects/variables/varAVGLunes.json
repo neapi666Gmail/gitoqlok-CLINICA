@@ -1,0 +1,17 @@
+{
+  "qInfo": {
+    "qId": "varAVGLunes",
+    "qType": "variable"
+  },
+  "qMetaDef": {},
+  "qName": "varAVGLunes",
+  "qNumberPresentation": {
+    "qType": "U",
+    "qnDec": 10,
+    "qUseThou": 0
+  },
+  "qDefinition": "=Avg( {$<DiaSemanaVisita_ID={2}>} DuracionVisita)",
+  "tags": [
+    "converter-auto-created"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "qInfo": {
+    "qId": "b17ff403-f561-45bf-97b2-d4961ed9f4dd",
+    "qType": "dimension"
+  },
+  "qDim": {
+    "qGrouping": "N",
+    "qFieldDefs": [
+      "=$(vBtnTop3)"
+    ],
+    "qFieldLabels": [
+      "Top3"
+    ],
+    "qLabelExpression": "=PurgeChar('$(=vBtnTop3)','[]')",
+    "title": "Top3",
+    "coloring": {
+      "colorMapRef": "nFpkn",
+      "changeHash": "0.6044593545501522",
+      "hasValueColors": false
+    }
+  },
+  "qMetaDef": {
+    "title": "Top3",
+    "description": "",
+    "tags": [
+      "Grupos"
+    ]
+  }
+}

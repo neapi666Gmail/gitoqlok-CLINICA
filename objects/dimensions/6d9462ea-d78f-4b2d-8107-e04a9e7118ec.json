@@ -1,0 +1,29 @@
+{
+  "qInfo": {
+    "qId": "6d9462ea-d78f-4b2d-8107-e04a9e7118ec",
+    "qType": "dimension"
+  },
+  "qDim": {
+    "qGrouping": "N",
+    "qFieldDefs": [
+      "=$(vBtnGrupo2)"
+    ],
+    "qFieldLabels": [
+      "Grupo2"
+    ],
+    "qLabelExpression": "=PurgeChar('$(=vBtnGrupo2)','[]')",
+    "title": "Grupo2",
+    "coloring": {
+      "colorMapRef": "JKUBsU",
+      "changeHash": "0.6601691128093237",
+      "hasValueColors": false
+    }
+  },
+  "qMetaDef": {
+    "title": "Grupo2",
+    "description": "",
+    "tags": [
+      "Grupos"
+    ]
+  }
+}

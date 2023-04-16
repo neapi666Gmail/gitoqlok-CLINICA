@@ -1,0 +1,17 @@
+{
+  "qInfo": {
+    "qId": "f826b727-2c52-4a91-87d8-5c0a3336b7e5",
+    "qType": "variable"
+  },
+  "qMetaDef": {},
+  "qName": "vBtnTiempo2",
+  "qNumberPresentation": {
+    "qType": "U",
+    "qnDec": 10,
+    "qUseThou": 0
+  },
+  "qDefinition": "=pick($(vIndiceTiempo2),'[DiaSemanaVisita]','[Mes]')",
+  "tags": [
+    "Grupos"
+  ]
+}

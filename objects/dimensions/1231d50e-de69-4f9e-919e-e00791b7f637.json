@@ -1,0 +1,29 @@
+{
+  "qInfo": {
+    "qId": "1231d50e-de69-4f9e-919e-e00791b7f637",
+    "qType": "dimension"
+  },
+  "qDim": {
+    "qGrouping": "N",
+    "qFieldDefs": [
+      "=$(vBtnGrupo7)"
+    ],
+    "qFieldLabels": [
+      "Grupo7"
+    ],
+    "qLabelExpression": "=PurgeChar('$(=vBtnGrupo7)','[]')",
+    "title": "Grupo7",
+    "coloring": {
+      "colorMapRef": "JKUBsU",
+      "changeHash": "0.9532541959461487",
+      "hasValueColors": false
+    }
+  },
+  "qMetaDef": {
+    "title": "Grupo7",
+    "description": "",
+    "tags": [
+      "Grupos"
+    ]
+  }
+}

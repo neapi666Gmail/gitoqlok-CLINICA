@@ -1,0 +1,728 @@
+[
+  {
+    "qName": "Agrupación",
+    "qTags": [
+      "$text"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "Agrupación_ID",
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "Año",
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Calendario"
+    ]
+  },
+  {
+    "qName": "CIF Empresa",
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "Clase Visita",
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "CodigoEmpresa",
+    "qTags": [
+      "$key",
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "Visita",
+      "Empresa"
+    ]
+  },
+  {
+    "qName": "CodigoGrupoEmpresa",
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Empresa"
+    ]
+  },
+  {
+    "qName": "CódigoCaso",
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "CódigoDispensario",
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "CódigoProvincia",
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "DiaNoche",
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "DiaNoche"
+    ]
+  },
+  {
+    "qName": "DiaNoche_ID",
+    "qTags": [
+      "$key",
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Rango",
+      "DiaNoche"
+    ]
+  },
+  {
+    "qName": "DiaSemanaVisita",
+    "qTags": [
+      "$text"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "DiaSemanaVisita_ID",
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "Dispensario",
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "DocumentoAsociacion",
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "DuracionVisita",
+    "qTags": [
+      "$numeric"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "DuraciónVisita",
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "DíasDiferencia",
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "Empresa",
+    "qTags": [
+      "$text"
+    ],
+    "qSrcTables": [
+      "Empresa"
+    ]
+  },
+  {
+    "qName": "Entidad Caso",
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "Especialidad",
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "Especialidad_ID",
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "Estado",
+    "qTags": [
+      "$text"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "EstadoVisita_ID",
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "Fecha",
+    "qTags": [
+      "$key",
+      "$numeric",
+      "$integer",
+      "$timestamp",
+      "$date"
+    ],
+    "qSrcTables": [
+      "Visita",
+      "Calendario"
+    ]
+  },
+  {
+    "qName": "FechaEntradaVisita",
+    "qTags": [
+      "$numeric",
+      "$timestamp"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "FechaGrabación",
+    "qTags": [
+      "$numeric",
+      "$timestamp"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "FechaLlegadaVisita",
+    "qTags": [
+      "$numeric",
+      "$timestamp"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "FechaProgramadaVisita",
+    "qTags": [
+      "$numeric",
+      "$timestamp"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "FechaSalidaVisita",
+    "qTags": [
+      "$numeric",
+      "$timestamp"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "FechaVisita",
+    "qTags": [
+      "$numeric",
+      "$integer",
+      "$timestamp",
+      "$date"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "Grupo Empresa",
+    "qTags": [
+      "$text"
+    ],
+    "qSrcTables": [
+      "Empresa"
+    ]
+  },
+  {
+    "qName": "HistClinic",
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "IDClasVis",
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "IDTipoRecurso",
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "IDVisitaSuc",
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "ID_Rango",
+    "qTags": [
+      "$key",
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Visita",
+      "Rango"
+    ]
+  },
+  {
+    "qName": "IDmasVisita",
+    "qTags": [
+      "$text"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "MaxAño",
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Calendario-1"
+    ]
+  },
+  {
+    "qName": "MaxMes",
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Calendario-1"
+    ]
+  },
+  {
+    "qName": "Mes",
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Calendario"
+    ]
+  },
+  {
+    "qName": "MesAny",
+    "qTags": [
+      "$numeric",
+      "$integer",
+      "$timestamp",
+      "$date"
+    ],
+    "qSrcTables": [
+      "Calendario"
+    ]
+  },
+  {
+    "qName": "MesNum",
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Calendario"
+    ]
+  },
+  {
+    "qName": "MinAño",
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Calendario-1"
+    ]
+  },
+  {
+    "qName": "PropioAjeno",
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "Recurso"
+    ]
+  },
+  {
+    "qName": "PropioAjeno_ID",
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "Recurso"
+    ]
+  },
+  {
+    "qName": "Provincia",
+    "qTags": [
+      "$text"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "RangoHora",
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "Rango"
+    ]
+  },
+  {
+    "qName": "Recurso",
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "Recurso"
+    ]
+  },
+  {
+    "qName": "RecursoAbreviado",
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "Recurso"
+    ]
+  },
+  {
+    "qName": "Recurso_ID",
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Recurso"
+    ]
+  },
+  {
+    "qName": "SUMA",
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "TiempoEsperaVisita",
+    "qTags": [
+      "$numeric"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "Tipo Asistencia",
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "Tipo Visita",
+    "qTags": [
+      "$text"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "TipoContingencia",
+    "qTags": [
+      "$text"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "TipoContingencia_ID",
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "TipoRecurso",
+    "qTags": [
+      "$text"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "TipoRecursoClave",
+    "qTags": [
+      "$key",
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "Visita",
+      "Recurso"
+    ]
+  },
+  {
+    "qName": "TipoRecurso_ID",
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Recurso"
+    ]
+  },
+  {
+    "qName": "TipoVisita_ID",
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "Trimestre",
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "Calendario"
+    ]
+  },
+  {
+    "qName": "Turno",
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "Turnos"
+    ]
+  },
+  {
+    "qName": "Turno_ID",
+    "qTags": [
+      "$key",
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Turnos",
+      "Rango"
+    ]
+  },
+  {
+    "qName": "UrgDelSN",
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "Urgencia",
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "UrgenciaConsulta",
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "UrgenciaSN",
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "Urgente_ID",
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "Visita_ID",
+    "qTags": [
+      "$numeric",
+      "$integer"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  },
+  {
+    "qName": "VolanteSN",
+    "qTags": [
+      "$text",
+      "$ascii"
+    ],
+    "qSrcTables": [
+      "Visita"
+    ]
+  }
+]

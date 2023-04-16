@@ -1,0 +1,28 @@
+{
+  "qInfo": {
+    "qId": "nFpkn",
+    "qType": "dimension"
+  },
+  "qDim": {
+    "qGrouping": "N",
+    "qFieldDefs": [
+      "=$(vBtnGrup2)"
+    ],
+    "qFieldLabels": [
+      "Grup2"
+    ],
+    "qLabelExpression": "=PurgeChar('$(=vBtnGrup2)','[]')",
+    "title": "Grup2",
+    "coloring": {
+      "changeHash": "0.7144452062258837",
+      "hasValueColors": false
+    }
+  },
+  "qMetaDef": {
+    "title": "Grup2",
+    "description": "",
+    "tags": [
+      "Grupos"
+    ]
+  }
+}

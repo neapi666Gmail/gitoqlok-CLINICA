@@ -1,0 +1,28 @@
+{
+  "qInfo": {
+    "qId": "JKUBsU",
+    "qType": "dimension"
+  },
+  "qDim": {
+    "qGrouping": "N",
+    "qFieldDefs": [
+      "=$(vBtnGrupo1)"
+    ],
+    "qFieldLabels": [
+      "Grupo1"
+    ],
+    "qLabelExpression": "=PurgeChar('$(=vBtnGrupo1)','[]')",
+    "title": "Grupo1",
+    "coloring": {
+      "changeHash": "0.6400630520665833",
+      "hasValueColors": false
+    }
+  },
+  "qMetaDef": {
+    "title": "Grupo1",
+    "description": "",
+    "tags": [
+      "Grupos"
+    ]
+  }
+}

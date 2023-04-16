@@ -1,0 +1,259 @@
+///$tab Visita
+Visita:
+LOAD
+	AID 														as Visita_ID,
+	HORPROGRAM           										as ID_Rango,	
+	ESTADO              										as EstadoVisita_ID,
+	ApplyMap('EstadoVisitas',ESTADO)							as Estado,
+	URGENTE              										as Urgente_ID,
+	ApplyMap('Urgente',URGENTE)									as Urgencia,
+//	URGENCIA             										as Urgencia,
+	ANYOCASO & '-' & CODIGOCASO									as CódigoCaso,
+	HISTCLINIC													as HistClinic,
+	IDTIPRECUR & '|' & 'RECURSO'								as TipoRecursoClave,
+	IDTIPRECUR 													as IDTipoRecurso,
+	ApplyMap('TiposRecurso',IDTIPRECUR)							as TipoRecurso,
+	MOTIVO														as TipoContingencia_ID,
+	ApplyMap('TipoContingencia',MOTIVO)							as TipoContingencia,
+/*	PROPIOAJENO													as PropioAjeno_ID,       */
+	IDAGRUPACION												as Agrupación_ID,
+	ApplyMap('AgrupaciónMedico',IDAGRUPACION) 					as Agrupación,
+	TMTGRABACION												as FechaGrabación,
+	TMTPROGRAM													as FechaProgramadaVisita,
+	DIASDIFERENCIA												as DíasDiferencia,
+	FECVISITA     							         			as FechaVisita,
+	makedate(year(FECVISITA),month(FECVISITA))					AS Fecha,
+	TMTENTRADA 													as FechaEntradaVisita,
+	TMTSALIDA 													as FechaSalidaVisita,
+	TMTLLEGADA													as FechaLlegadaVisita,
+	DIASEMANA													as DiaSemanaVisita_ID,
+	ApplyMap('DiaSemana',DIASEMANA)			 					as DiaSemanaVisita,
+	TIEMPOESPERA												as TiempoEsperaVisita,
+	DURACION													as DuracionVisita,
+	CODTDE & '-' & DOCASO										as DocumentoAsociacion,
+	CODIGOENTIDAD & '-' & 'NOMBREENTIDAD'							as "Entidad Caso",
+	SUMA														as SUMA,
+	CODTDE & '-' & DOCASO & ' ' & CCCPRV & '-' & CCCNUM & '-' & CCCDIG as CodigoEmpresa,
+	DESCRIPCIOTIPOVISITA										AS "Tipo Visita", /* Antes se llamaba Visita */
+    TID															as TipoVisita_ID,
+    TID & ' ' & DESCRIPCIOTIPOVISITA							as IDmasVisita,
+    IDVISITSUC													as IDVisitaSuc,
+    IDCLASVIS													as IDClasVis,
+    ApplyMap('Clasifvis',IDCLASVIS) 							as "Clase Visita",
+    SERFAM														as Especialidad_ID, 
+    ApplyMap('Especialidad',SERFAM) 							as Especialidad,   
+    URGDELSN													as UrgDelSN,
+    ApplyMap('UrgenciaConsulta',URGDELSN) 						as UrgenciaConsulta,
+    URGENCIASN													as UrgenciaSN,
+    VOLANTESN													as VolanteSN,
+    DURACVISIT													as DuraciónVisita,
+    DISCOD														as CódigoDispensario,
+    DISPRV														as CódigoProvincia,
+    ApplyMap('Provincia',DISPRV) 								as Provincia, 
+    DISDES														as Dispensario,
+    CIF 														as "CIF Empresa",
+    TIPOASISTENCIA												as "Tipo Asistencia";
+	
+	SQL SELECT A.ID as AID, 
+			A.DISPENSARI as DISPENSARI,
+			A.IDTIPVISIT as IDTIPVISIT, 
+			LEFT(DIGITS(A.HORPROGRAM), 2) as HORPROGRAM, 
+			a.ESTADO as ESTADO, 
+			a.URGENTE as URGENTE,
+			D.ANYOCASO as ANYOCASO,
+			D.CODIGOCASO as CODIGOCASO,
+			D.IDHISTCLIN as HISTCLINIC,  		
+			(CASE 	WHEN A.IDTIPRECUR IS NOT NULL THEN A.IDTIPRECUR 
+				  	WHEN A.IDTIPRECUR IS NULL AND A.IDMEDICO IS NOT NULL THEN 1 
+					WHEN A.IDTIPRECUR IS NULL AND A.IDADMINIST IS NOT NULL THEN 6 END)  AS IDTIPRECUR,			
+			(CASE WHEN A.IDTIPRECUR = 1 or (A.IDTIPRECUR IS NULL AND A.IDMEDICO IS NOT NULL) THEN A.IDMEDICO 	
+ 		 	 WHEN A.IDTIPRECUR = 2 THEN A.IDDUE 	
+			 WHEN A.IDTIPRECUR = 3 THEN A.IDPSICOLOG 	
+			 WHEN A.IDTIPRECUR = 4 THEN A.IDAUXCLINI 	
+			 WHEN A.IDTIPRECUR = 5 THEN A.IDASTSOCIA 	
+			 WHEN A.IDTIPRECUR = 6 or (A.IDTIPRECUR IS NULL AND A.IDADMINIST IS NOT NULL) THEN A.IDADMINIST 	
+			 WHEN A.IDTIPRECUR = 7 THEN A.IDFISIOTER 
+			 WHEN A.IDTIPRECUR = 8 THEN A.IDODONTOLO  
+			 WHEN A.IDTIPRECUR = 9 THEN A.IDDIETISTA END)  AS RECURSO,		
+			 				
+//			(CASE WHEN A.URGENTE = '1' THEN 'Prioritario 1'
+//			 	  WHEN A.URGENTE = '2' THEN 'Prioritario 2'
+//			 	  WHEN A.URGENTE = '3' THEN 'Urgente 3'
+//			 	  WHEN A.URGENTE = '4' THEN 'Urgente 4'	
+//			 	  WHEN A.URGENTE = '5' THEN 'No Urgente 5' END)  AS URGENCIA,	
+			 	  		
+			(CASE WHEN A.IDCASO IS NOT NULL THEN D.IDMOTICASO 
+			 	  WHEN A.IDEXPEDAT IS NOT NULL THEN 1 
+			 	  WHEN A.IDEXPEDCC IS NOT NULL THEN 7 
+			 	  WHEN A.IDEXPEDIEN IS NOT NULL THEN 10 	
+			 	  WHEN A.IDBAJASIN IS NOT NULL THEN 1 ELSE 6 END)  AS MOTIVO,			
+			
+			E.IDAGRUPA   AS IDAGRUPACION,	
+			 
+			A.FECPROGINI AS TMTPROGRAM,
+			date(A.FECPROGINI) AS FECVISITA,
+			
+			(TIMESTAMP(SUBSTR(digits(FECGRABACI), 1, 4) || '-' ||    
+          		SUBSTR(digits(FECGRABACI), 5, 2) || '-' ||    
+	          	SUBSTR(digits(FECGRABACI), 7, 2) || '-' ||    
+          		SUBSTR(digits(HORGRABACI), 1, 2) || '.' ||  
+          		SUBSTR(digits(HORGRABACI), 3, 2) || '.' || '00')) AS TMTGRABACION,
+          		
+          (days(a.FECPROGINI)-days(date(SUBSTR(FECGRABACI, 1, 4) || '-' ||SUBSTR(FECGRABACI, 5, 2) || '-' ||SUBSTR(FECGRABACI, 7, 2)))) AS DIASDIFERENCIA,
+          		          					
+			(TIMESTAMP(SUBSTR(digits(FECENTRADA), 1, 4) || '-' ||    
+          		SUBSTR(digits(FECENTRADA), 5, 2) || '-' ||    
+	          	SUBSTR(digits(FECENTRADA), 7, 2) || '-' ||    
+          		SUBSTR(digits(HORENTRADA), 1, 2) || '.' ||  
+          		SUBSTR(digits(HORENTRADA), 3, 2) || '.' || '00')) AS TMTENTRADA,
+ 			(TIMESTAMP(SUBSTR(digits(FECSALIDA), 1, 4) || '-' ||    
+          		SUBSTR(digits(FECSALIDA), 5, 2) || '-' ||    
+	          	SUBSTR(digits(FECSALIDA), 7, 2) || '-' ||    
+          		SUBSTR(digits(HORSALIDA), 1, 2) || '.' ||    
+          		SUBSTR(digits(HORSALIDA), 3, 2) || '.' || '00')) AS TMTSALIDA,
+			(TIMESTAMP(SUBSTR(digits(FECLLEGADA), 1, 4) || '-' ||    
+          		SUBSTR(digits(FECLLEGADA), 5, 2) || '-' ||    
+	          	SUBSTR(digits(FECLLEGADA), 7, 2) || '-' ||    
+          		SUBSTR(digits(HORLLEGADA), 1, 2) || '.' ||    
+          		SUBSTR(digits(HORLLEGADA), 3, 2) || '.' || '00')) AS TMTLLEGADA,
+   			
+   			dayofweek(FECPROGINI) as DIASEMANA,
+    
+/* Tiempo de Espera */
+/********************/
+
+ 	  		(CASE WHEN A.FECENTRADA IS NULL THEN NULL 
+ 	  		 
+ 	  		 ELSE
+ 	  		 
+ 	  			(CASE WHEN COALESCE(FECENTRADA, 0) = COALESCE(FECPROGRAM, 0) AND COAlESCE(FECENTRADA, 0) = COALESCE(FECLLEGADA, 0) 
+          			
+            	THEN 
+	/* PROGRAMADA = LLEGADA (con horas) */
+            	
+                  		(CASE WHEN 
+                  		FECPROGINI > TIMESTAMP(SUBSTR(digits(FECLLEGADA), 1, 4) || '-' || SUBSTR(digits(FECLLEGADA), 5, 2) || '-' || SUBSTR(digits(FECLLEGADA), 7, 2) || '-' ||    
+      	                SUBSTR(digits(HORLLEGADA), 1, 2) || '.' || SUBSTR(digits(HORLLEGADA), 3, 2) || '.' || '00')
+      	                
+      	                THEN 
+    /* COMPROBAR HORAS */ 
+    					 	(CASE when COALESCE(HORENTRADA, 0) > COALESCE(HORPROGRAM, 0) THEN                
+      	                time('00:00:00') + cast(TIMESTAMP(SUBSTR(digits(FECENTRADA), 1, 4) || '-' || SUBSTR(digits(FECENTRADA), 5, 2) || '-' || SUBSTR(digits(FECENTRADA), 7, 2) || '-' ||    
+          				SUBSTR(digits(HORENTRADA), 1, 2) || '.' || SUBSTR(digits(HORENTRADA), 3, 2) || '.' || '00') - FECPROGINI as dec(6,0)) ELSE time('00:00:00') END)
+          				
+          				ELSE
+      	                	(CASE when COALESCE(HORENTRADA, 0) > COALESCE(HORLLEGADA, 0) THEN      	                      	                
+      	                time('00:00:00') + cast(TIMESTAMP(SUBSTR(digits(FECENTRADA), 1, 4) || '-' || SUBSTR(digits(FECENTRADA), 5, 2) || '-' || SUBSTR(digits(FECENTRADA), 7, 2) || '-' ||    
+          				SUBSTR(digits(HORENTRADA), 1, 2) || '.' || SUBSTR(digits(HORENTRADA), 3, 2) || '.' || '00') -                		 
+          				TIMESTAMP(SUBSTR(digits(FECLLEGADA), 1, 4) || '-' || SUBSTR(digits(FECLLEGADA), 5, 2) || '-' ||	SUBSTR(digits(FECLLEGADA), 7, 2) || '-' ||    
+          	 			SUBSTR(digits(HORLLEGADA), 1, 2) || '.' || 	SUBSTR(digits(HORLLEGADA), 3, 2) || '.' || '00') as dec(6,0)) ELSE time('00:00:00') END) END) 
+          	 			
+             	ELSE
+             	
+/* Solo tratar 1 de las dos */
+          	 	  
+          	 	  		(CASE WHEN FECENTRADA = FECLLEGADA THEN
+          		   		   	(CASE when COALESCE(HORENTRADA, 0) > COALESCE(HORLLEGADA, 0) THEN 	  
+          	 	  		time('00:00:00') + cast(TIMESTAMP(SUBSTR(digits(FECENTRADA), 1, 4) || '-' || SUBSTR(digits(FECENTRADA), 5, 2) || '-' || SUBSTR(digits(FECENTRADA), 7, 2) || '-' ||    
+          				SUBSTR(digits(HORENTRADA), 1, 2) || '.' || SUBSTR(digits(HORENTRADA), 3, 2) || '.' || '00') - 
+          				TIMESTAMP(SUBSTR(digits(FECLLEGADA), 1, 4) || '-' || SUBSTR(digits(FECLLEGADA), 5, 2) || '-' || SUBSTR(digits(FECLLEGADA), 7, 2) || '-' ||    
+          				SUBSTR(digits(HORLLEGADA), 1, 2) || '.' || SUBSTR(digits(HORLLEGADA), 3, 2) || '.' || '00') as dec(6,0)) ELSE time('00:00:00') END)
+          				
+          				ELSE
+          				
+          				(CASE WHEN FECENTRADA = FECPROGRAM THEN  
+          				    (CASE when COALESCE(HORENTRADA, 0) > COALESCE(HORPROGRAM, 0) THEN   	 	  
+          	 	  		time('00:00:00') + cast(TIMESTAMP(SUBSTR(digits(FECENTRADA), 1, 4) || '-' || SUBSTR(digits(FECENTRADA), 5, 2) || '-' || SUBSTR(digits(FECENTRADA), 7, 2) || '-' ||    
+          				SUBSTR(digits(HORENTRADA), 1, 2) || '.' || SUBSTR(digits(HORENTRADA), 3, 2) || '.' || '00') - FECPROGINI as dec(6,0)) ELSE time('00:00:00') END) 
+          				ELSE time('00:00:00') END) END) 
+          			END)
+          		END)
+          		 
+            AS TIEMPOESPERA,
+ 	  				
+/* Duración */
+/**************/
+  		(CASE WHEN A.FECENTRADA IS NULL AND A.FECSALIDA IS NULL THEN NULL 
+ 	  		 
+ 	  		 ELSE
+ 	  		 
+ 	  			(CASE WHEN FECENTRADA = FECSALIDA and horsalida > horentrada 
+ 	  			
+            	THEN 
+	      	                      	                
+      	                time('00:00:00') + cast(TIMESTAMP(SUBSTR(digits(FECSALIDA), 1, 4) || '-' || SUBSTR(digits(FECSALIDA), 5, 2) || '-' || SUBSTR(digits(FECSALIDA), 7, 2) || '-' ||    
+          				SUBSTR(digits(HORSALIDA), 1, 2) || '.' || SUBSTR(digits(HORSALIDA), 3, 2) || '.' || '00')
+          				-                		 
+          				TIMESTAMP(SUBSTR(digits(FECENTRADA), 1, 4) || '-' || SUBSTR(digits(FECENTRADA), 5, 2) || '-' ||	SUBSTR(digits(FECENTRADA), 7, 2) || '-' ||    
+          	 			SUBSTR(digits(HORENTRADA), 1, 2) || '.' || 	SUBSTR(digits(HORENTRADA), 3, 2) || '.' || '00') as dec(6,0)) 
+          	 			
+             	ELSE
+             	
+
+          				time('00:00:00') END) END) 
+          		
+          		 
+            AS DURACION,      
+                       
+            (CASE WHEN DE.CODTDE IS NOT NULL THEN DE.CODTDE 
+			      WHEN EXC.EXCTDE IS NOT NULL  THEN EXC.EXCTDE 
+			      WHEN DE2.CODTDE IS NOT NULL THEN DE.CODTDE END)  AS CODTDE, 
+			
+     		(CASE WHEN DE.DOCASOADH IS NOT NULL THEN DE.DOCASOADH
+			      WHEN EXC.EXCDAS IS NOT NULL THEN EXC.EXCDAS
+			      WHEN DE2.DOCASOADH IS NOT NULL THEN DE2.DOCASOADH END) AS DOCASO,
+			  	         		
+     		(CASE WHEN EM.PRVCCCNAF IS NOT NULL THEN EM.PRVCCCNAF
+			      WHEN EXC.EXCPCC IS NOT NULL  THEN EXC.EXCPCC
+			      WHEN EM2.PRVCCCNAF IS NOT NULL THEN EM2.PRVCCCNAF END)  AS CCCPRV, 
+			 	         		
+     		(CASE WHEN EM.NUMCCCNAF IS NOT NULL THEN EM.NUMCCCNAF
+			      WHEN EXC.EXCNCC IS NOT NULL  THEN EXC.EXCNCC 
+			      WHEN EM2.NUMCCCNAF IS NOT NULL THEN EM2.NUMCCCNAF END) AS CCCNUM,
+			  	         		
+     		(CASE WHEN EM.DIGCCCNAF IS NOT NULL THEN EM.DIGCCCNAF
+				  WHEN EXC.EXCDCC IS NOT NULL  THEN EXC.EXCDCC 
+				  WHEN EM2.DIGCCCNAF IS NOT NULL THEN EM2.DIGCCCNAF END) AS CCCDIG,   
+				  
+		    (CASE WHEN DE.NIF  IS NOT NULL THEN DE.NIF
+		    	  WHEN DE2.NIF IS NOT NULL THEN DE2.NIF
+		    	  WHEN DE3.NIF IS NOT NULL THEN DE3.NIF ELSE ' ' END) AS CIF,				  				  				     
+
+			ENT.CODIGO as CODIGOENTIDAD, ENT.NOMBRE as NOMBREENTIDAD, M.SUMA,
+			trim(T.DESCRIPCIO) as DESCRIPCIOTIPOVISITA,T.ID AS TID,
+    DURACVISIT,
+    IDVISITSUC,
+    IDCLASVIS,
+    SERFAM,
+    URGDELSN,
+    URGENCIASN,
+    VOLANTESN,
+    DISCOD,DISPRV,
+    DISDES,
+    (CASE T.TIPASISTEN WHEN 'N' THEN 'NO PRESENCIAL' WHEN 'P' THEN 'PRESENCIAL' WHEN 'V' THEN 'VIDEOLLAMADA' END) AS TIPOASISTENCIA
+
+FROM S657B8AB.MBD.LIBRVISITA A 
+INNER JOIN MBD.TIPOVISITA T ON A.IDTIPVISIT=T.ID
+INNER JOIN MBDAT.DISPEN DIS ON A.DISPENSARI=DIS.DISCOD 
+							   LEFT OUTER JOIN S657B8AB.MBD.CASO D        ON A.IDCASO = D.ID
+                        	   LEFT OUTER JOIN S657B8AB.MBD.MEDICOMB E    ON A.IDMEDICO = E.ID
+                         	   left outer JOIN S657B8AB.MBDAT.ZONAS F     ON E.PROVZONA = F.ZONPRV AND E.CODIZONA = F.ZONCOD
+                         	   LEFT OUTER JOIN MBD.EMPRESA EM ON D.IDEMPREAFI=EM.ID
+                         	   LEFT OUTER JOIN MBD.DOCEMPRE DE ON EM.DOCUMENTOEMPRESA_ID=DE.ID
+                         	   LEFT OUTER JOIN S657B8AB.MBDAT.PKEXPECC PKC  ON A.IDEXPEDCC = PKC.ID 
+                         	   left outer join S657B8AB.MBDAT.EXPEDICC EXC   ON 
+                         	   PKC.PKCAÑO=EXC.EXCAÑO and
+							   PKC.PKCCOD=EXC.EXCCOD and
+							   PKC.PKCPRV=EXC.EXCPRV 
+							   LEFT OUTER JOIN MBD.VEMPRESA V ON EXC.EXCTDE=V.CODTDE AND EXC.EXCDAS=V.DOCASOADH AND EXC.EXCPCC=V.PRVCCCNAF AND EXC.EXCNCC=V.NUMCCCNAF AND EXC.EXCDCC=V.DIGCCCNAF
+							   LEFT OUTER JOIN MBD.EMPRESA EM3 ON V.IDEMPREAFI=EM3.ID
+                         	   LEFT OUTER JOIN MBD.DOCEMPRE DE3 ON EM3.DOCUMENTOEMPRESA_ID=DE3.ID
+							   LEFT OUTER JOIN S657B8AB.MBD.EXPEDIENTE X ON A.IDEXPEDIEN=X.ID
+							   LEFT OUTER JOIN MBD.EMPRESA EM2 ON X.IDEMPREAFI=EM2.ID
+                         	   LEFT OUTER JOIN MBD.DOCEMPRE DE2 ON EM2.DOCUMENTOEMPRESA_ID=DE2.ID							   
+							   LEFT OUTER JOIN S657B8AB.MBD.ENTIDADMB ENT ON D.ENTCOD=ENT.CODIGO
+							   LEFT OUTER JOIN MBD.MUTUA M ON ENT.CODIGO=M.ENTFACASIS
+
+WHERE A.FECPROGRAM >= 20190101 and A.dispensari in (' 2', '10', '14')
+ORDER BY FECVISITA	;
+;

@@ -1,0 +1,17 @@
+{
+  "qInfo": {
+    "qId": "varAVGMartes",
+    "qType": "variable"
+  },
+  "qMetaDef": {},
+  "qName": "varAVGMartes",
+  "qNumberPresentation": {
+    "qType": "U",
+    "qnDec": 10,
+    "qUseThou": 0
+  },
+  "qDefinition": "=Avg( {$<DiaSemanaVisita_ID={3}>} DuracionVisita)",
+  "tags": [
+    "converter-auto-created"
+  ]
+}

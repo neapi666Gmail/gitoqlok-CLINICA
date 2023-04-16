@@ -1,0 +1,17 @@
+{
+  "qInfo": {
+    "qId": "295df2ea-4743-4787-a511-dbcc14a6aeff",
+    "qType": "variable"
+  },
+  "qMetaDef": {},
+  "qName": "vColorAzulClaro",
+  "qNumberPresentation": {
+    "qType": "U",
+    "qnDec": 10,
+    "qUseThou": 0
+  },
+  "qDefinition": "RGB(214,231,248)",
+  "tags": [
+    "Grupos"
+  ]
+}

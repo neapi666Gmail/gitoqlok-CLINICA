@@ -1,0 +1,17 @@
+{
+  "qInfo": {
+    "qId": "varToday",
+    "qType": "variable"
+  },
+  "qMetaDef": {},
+  "qName": "varToday",
+  "qNumberPresentation": {
+    "qType": "U",
+    "qnDec": 10,
+    "qUseThou": 0
+  },
+  "qDefinition": "45027",
+  "tags": [
+    "converter-auto-created"
+  ]
+}

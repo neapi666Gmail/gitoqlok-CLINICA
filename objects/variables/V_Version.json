@@ -1,0 +1,17 @@
+{
+  "qInfo": {
+    "qId": "V_Version",
+    "qType": "variable"
+  },
+  "qMetaDef": {},
+  "qName": "V_Version",
+  "qNumberPresentation": {
+    "qType": "U",
+    "qnDec": 10,
+    "qUseThou": 0
+  },
+  "qDefinition": "V. 2.0.1",
+  "tags": [
+    "converter-auto-created"
+  ]
+}

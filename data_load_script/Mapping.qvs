@@ -1,0 +1,98 @@
+///$tab Mapping
+
+Especialidad:
+Mapping LOAD
+	ID,
+	DESCRIPCIO;
+SQL SELECT 	FMSIDE AS ID, 
+			FMSDES AS DESCRIPCIO FROM S657B8AB.mbdat.famservi order by fmside; 
+
+
+Provincia:
+Mapping LOAD
+	PRVCOD,
+	PRVDES;
+SQL SELECT * FROM S657B8AB.MBDAT.PROVINCI order by PRVCOD;
+
+TipoContingencia:
+Mapping LOAD
+	ID,
+	DESCRIPCIO;
+SQL SELECT * FROM S657B8AB.MBD.MOTIVOCASO;	
+
+Clasifvis:
+Mapping LOAD 
+	ID,
+	DESCRIPCIO;
+SQL SELECT ID, DESCRIPCIO
+FROM S657B8AB.MBD.CLASIFVIS;
+
+AgrupaciónMedico:
+Mapping LOAD 
+		ID,
+		DESCRIPCIO;
+SQL SELECT ID, DESCRIPCIO
+FROM S657B8AB.MBD.AGRUMEDIMB;
+
+Urgente:
+Mapping LOAD * INLINE [
+     Urgente_ID,TipoUrgencia
+     '0', DESCONOCIDO
+     '1', PRIORITARIO_1       
+     '2', PRIORITARIO_2       
+     '3', URGENTE_3           
+     '4', URGENTE_4           
+     '5', NORMAL_5            
+];
+
+TiposRecurso:
+Mapping LOAD * INLINE [
+    IDTipoRecurso, TipoRecurso
+    1, Médico
+    2, Due
+    3, Psicólogo
+    4, Auxiliar Clínica
+    5, Asistente Social
+    6, Administrativo
+    7, Fisioterapeuta
+    8, Odontólogo,
+    9, Dietista    
+];
+
+EstadoVisitas:
+Mapping LOAD * INLINE [
+    EstadoVisita_ID, Estado
+    P, Presentada
+    R, Realizada
+    N, No presentada 
+    A, Anulada
+    L, Aplazada
+    X, Próxima
+    S, Suspendida
+];
+
+MutuaExterno:
+Mapping LOAD * INLINE [
+    PropioAjeno_ID, PropioAjeno
+    M, Propios
+    E, Ajenos
+];
+
+UrgenciaConsulta:
+Mapping LOAD * INLINE [
+    UrgenciaSiNo, UrgenciaConsulta
+    S, Urgencias
+    N, Consultas
+];
+
+DiaSemana:
+Mapping LOAD * INLINE [
+    DiaSemanaVisita_ID, DiaSemanaVisita
+    2, Lunes
+    3, Martes
+    4, Miércoles
+    5, Jueves
+    6, Viernes
+    7, Sábado
+    1, Domingo
+];

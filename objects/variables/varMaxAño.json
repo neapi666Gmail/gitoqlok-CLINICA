@@ -1,0 +1,17 @@
+{
+  "qInfo": {
+    "qId": "varMaxAño",
+    "qType": "variable"
+  },
+  "qMetaDef": {},
+  "qName": "varMaxAño",
+  "qNumberPresentation": {
+    "qType": "U",
+    "qnDec": 10,
+    "qUseThou": 0
+  },
+  "qDefinition": "=max(Año)",
+  "tags": [
+    "converter-auto-created"
+  ]
+}

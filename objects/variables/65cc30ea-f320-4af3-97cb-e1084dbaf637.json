@@ -1,0 +1,17 @@
+{
+  "qInfo": {
+    "qId": "65cc30ea-f320-4af3-97cb-e1084dbaf637",
+    "qType": "variable"
+  },
+  "qMetaDef": {},
+  "qName": "vDinamicGrup2",
+  "qNumberPresentation": {
+    "qType": "U",
+    "qnDec": 10,
+    "qUseThou": 0
+  },
+  "qDefinition": "='1~Año|2~Mes|3~DiaSemanaVisita|4~Recurso|5~Turno|6~RangoHora|7~TipoContingencia|8~Urgencia|9~Empresa|10~Grupo Empresa|11~Entidad Caso'",
+  "tags": [
+    "Grupos"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "qInfo": {
+    "qId": "3503160f-d68a-4644-a90b-0cf9fbc9a6f4",
+    "qType": "variable"
+  },
+  "qMetaDef": {},
+  "qName": "vDinamicTop3",
+  "qNumberPresentation": {
+    "qType": "U",
+    "qnDec": 10,
+    "qUseThou": 0
+  },
+  "qDefinition": "='1~Tipo Visita|2~Dispensario|3~Clase Visita|4~AñoMes|5~DiaNoche|6~DiaSemanaVisita|7~Empresa|8~Grupo Empresa|9~Entidad Caso'",
+  "tags": [
+    "Grupos"
+  ]
+}

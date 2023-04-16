@@ -1,0 +1,17 @@
+{
+  "qInfo": {
+    "qId": "953a804e-9725-4e3f-a542-6f962c690d01",
+    "qType": "variable"
+  },
+  "qMetaDef": {},
+  "qName": "vIndiceGrupo5",
+  "qNumberPresentation": {
+    "qType": "U",
+    "qnDec": 10,
+    "qUseThou": 0
+  },
+  "qDefinition": "1",
+  "tags": [
+    "Grupos"
+  ]
+}
